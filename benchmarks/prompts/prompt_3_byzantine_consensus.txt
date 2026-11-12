@@ -1,0 +1,40 @@
+Conduct an exhaustive, mathematically rigorous, and source-grounded academic research audit evaluating the theoretical foundations, safety invariants, and dynamic reconfiguration mechanics of Distributed Byzantine Consensus under Partial Synchrony and Network Partitions. Reconcile conflicting claims across the distributed systems and cryptographic literature, identify boundary-condition failures, and resolve the following five multi-level core problems:
+
+### 1. FLP Impossibility vs Dwork-Lynch-Stockmeyer Partial Synchrony Bounds
+(a) Prove the Fischer-Lynch-Paterson (FLP 1985) impossibility theorem for asynchronous consensus: demonstrate why the existence of an initial bivalent configuration combined with the commutativity of non-overlapping step transitions implies the existence of an infinite non-terminating execution path in the presence of even a single unannounced crash failure (f = 1).
+(b) Formalize the Dwork-Lynch-Stockmeyer (DLS 1988) partial synchrony model with Global Stabilization Time (GST) and unknown transmission delay \Delta. Prove why Byzantine consensus requires n >= 3f + 1 under partial synchrony, contrasting this with the n >= 2f + 1 bound for non-Byzantine crash faults, and explain why no protocol can guarantee liveness prior to GST while safety must hold unconditionally for all t < GST.
+(c) State and prove the lower bound on round complexity for consensus in synchronous vs partially synchronous systems under adaptive Byzantine adversaries.
+
+### 2. Dynamic Membership Reconfiguration & The Cross-Epoch Quorum Intersection Trap
+Consider a state-machine replication (SMR) system transitioning from active validator configuration \mathcal{C}_k (with total weight W_k) to \mathcal{C}_{k+1} (with total weight W_{k+1}).
+(a) Prove the Cross-Configuration Quorum Intersection Invariant: For any two valid quorums Q_A \in \mathcal{C}_k and Q_B \in \mathcal{C}_{k+1}, prove why a simple majority in each configuration independently (|Q_A| > W_k / 2 and |Q_B| > W_{k+1} / 2) is strictly insufficient under Byzantine faults, and derive the exact necessary and sufficient intersection condition:
+|Q_A \cap Q_B| \ge f_k + f_{k+1} + 1
+to prevent simultaneous conflicting commitments (split-brain double-signing).
+(b) Detail the mechanics of Ongaro & Ousterhout's Raft Joint Consensus vs Tendermint / PBFT epoch transitions. Formulate the explicit multi-phase commit state machine for pipelined configuration changes and analyze the vulnerability window where an adversarial validator set can stall the network if reconfigurations occur faster than the finality pipeline depth.
+
+### 3. Proof-of-Stake Finality Gadgets & Casper Slashing Invariants
+Consider the Casper FFG (Vitalik & Griffith 2017) and Gasper (Casper FFG + LMD-GHOST) finality gadgets operating over a directed acyclic graph of checkpoints.
+(a) Formalize the two Casper Slashing Conditions for validator votes v = (\text{validator}, s, t, h(s), h(t)):
+   1. Double voting: v_1.t = v_2.t and v_1 \neq v_2
+   2. Surround voting: v_1.s < v_2.s < v_2.t < v_1.t
+(b) Prove the Accountable Safety Theorem: If two conflicting checkpoints c_1 and c_2 at the same height or conflicting forks are both finalized, prove that at least 1/3 of the total active validator stake must have violated one of the two slashing conditions.
+(c) Analyze the Dynamic Validator Set Invariant under asynchronous network partitions: Prove how Casper’s Inactivity Leak mechanism forces the effective validator set weight of non-participating nodes to decay exponentially, restoring liveness after an arbitrary-duration network partition without sacrificing safety.
+
+### 4. Pacemaker Liveness & Optimistic Responsiveness: PBFT vs HotStuff
+(a) Analyze the communication complexity of Castro & Liskov’s Practical Byzantine Fault Tolerance (PBFT 1999) during leader view change: prove why PBFT requires O(n^4) message exchange (or O(n^3) in optimized variants) to broadcast and verify the `NEW-VIEW` message containing 2f+1 `VIEW-CHANGE` proofs.
+(b) Formulate the HotStuff (Yin et al. 2019) 3-phase pipelined commit protocol (Prepare, Pre-Commit, Commit, Finalize). Prove why the Introduction of the High-QC (Quorum Certificate) and threshold BLS signature aggregation achieves linear view-change communication complexity O(n).
+(c) Prove that HotStuff satisfies Optimistic Responsiveness: the leader can advance the protocol as soon as it receives a Quorum Certificate from 2f+1 validators with throughput governed by the actual network round-trip delay \delta, independent of the maximum delay bound \Delta, without violating safety across GST.
+
+### 5. Asynchronous BFT & Secret Leader Election
+(a) Contrast partially synchronous leader-based BFT with purely asynchronous threshold-cryptography consensus (HoneyBadgerBFT / Miller et al. 2016; BEAT / Duan et al. 2018).
+(b) Formulate the Asynchronous Common Knowledge barrier and prove the communication complexity lower bounds for vector consensus using threshold signatures (BLS) and erasure codes (Reed-Solomon).
+(c) Formalize Single Secret Leader Election (SSLE; Boneh et al. 2020) via verifiable random functions (VRF) and zero-knowledge shuffles: prove how SSLE mitigates adaptive DDoS attacks and targeted bribery by ensuring the leader identity remains cryptographically hidden until the proposal is published.
+
+### Deliverable Requirements:
+1. Provide an executive Claim Audit Table summarizing: Protocol / Claim, Fault Model Assumptions (Crash vs Byzantine, Synchrony), Governing Primary Citations (Author, Year, Journal/arXiv ID), Formal Invariant / Proof Result, and Failure Boundaries.
+2. Directly cite and reconcile at least 8 foundational papers (including FLP 1985; DLS 1988; Castro & Liskov 1999; Ongaro & Ousterhout 2014; Yin et al. 2019 / HotStuff; Vitalik & Griffith 2017 / Casper; Miller et al. 2016 / HoneyBadgerBFT; Boneh et al. 2020 / SSLE).
+3. Provide explicit, self-contained Python code implementing:
+   - A 4-node Byzantine consensus state-machine simulation demonstrating 3-chain commit finality.
+   - A network partition simulator verifying split-brain prevention and slashing detection on surround vote equivocation.
+4. Conclude with a rigorous section on "Asynchronous Liveness Attacks under Adaptive Schedulers and P2P Eclipse Topologies".
+

@@ -1,0 +1,41 @@
+### PROBLEM DIRECTIVE: Cryo-EM 3D Single-Particle Reconstruction & Continuous Conformational Heterogeneity
+
+You are acting as a Principal Structural Biophysics Research Council. Provide an exhaustive mathematical derivation, signal processing formulation, and executable validation script for 3D single-particle cryogenic electron microscopy (cryo-EM) reconstruction and continuous conformational heterogeneity.
+
+#### 1. MATHEMATICAL PROBLEM SPECIFICATION
+- Data: N = 10^5 noisy 2D projection images {I_i(r)}_{i=1}^N where each image is formed by an unknown rigid-body pose (R_i ∈ SO(3), t_i ∈ R^2) and an unknown continuous conformational state z_i ∈ R^d from a continuous volume ensemble V(r; z).
+- Physics: Contrast Transfer Function (CTF) modulation, electron dose-dependent radiation damage, envelope functions, and low signal-to-noise ratio (SNR ≈ 0.01–0.1).
+
+#### 2. MANDATORY THEORETICAL DERIVATIONS & SIGNAL PROCESSING
+1. Forward Projection Operator & Fourier Slice Theorem:
+   - Formulate the 2D image formation equation in real and Fourier space:
+     I_i(k) = CTF_i(k) · [P_{R_i} V](k) + η_i(k)
+   - State and prove the central Fourier Slice Theorem in 3D: show that the 2D Fourier transform of a projection along projection axis ẑ corresponds to a central planar slice through the 3D Fourier transform of the potential V̂(k) perpendicular to ẑ.
+2. Fourier Shell Correlation (FSC) & Derivation of the 0.143 Criterion:
+   - Define the Fourier Shell Correlation FSC(k) between two independent half-set reconstructions V_1 and V_2.
+   - Provide the complete statistical derivation showing why the threshold FSC = 0.143 (Rosenthal & Henderson, 2003) corresponds to an equivalent spectral signal-to-noise ratio SSNR(k) ≈ 0.5.
+   - Relate this to the Bit-Factor information criterion (0.5 bits per Fourier shell required for alpha-helix/beta-sheet interpretability).
+3. Continuous Heterogeneity Formulation:
+   - Formulate the latent variable maximum marginal likelihood objective for continuous conformational dynamics:
+     log p(I_1, ..., I_N | V_θ) = ∑_i log ∫_{SO(3)} dR ∫_{R^2} dt ∫_{R^d} dz p(I_i | R, t, z, V_θ) p(R) p(t) p(z)
+   - Formulate the expectation-maximization or amortized variational inference (e.g., CryoSPARC 3DFlex / cryoDRGN) optimization framework.
+
+#### 3. ADVERSARIAL TRAPS & METHODOLOGICAL ARTIFACTS
+Directly address and resolve the following traps:
+1. The 0.143 Universal Law Myth: Why is the FSC = 0.143 threshold NOT a physical resolution law? Explain how tight real-space masking, shared alignment parameters (data leakage between half-sets), and noise overfitting produce false positive FSC curves (the "Einstein from noise" artifact).
+2. Rotational-Conformational Gauge Ambiguity: Detail the mathematical non-identifiability between global rigid-body rotation in SO(3) and internal deformation modes in latent space R^d. How is this degeneracy resolved?
+3. B-Factor Sharpening Over-interpretation: Formulate B-factor sharpening (multiplying by exp(+B k^2 / 4)). Prove why applying B-factor sharpening past the true FSC cutoff creates high-frequency ringing and spurious atomic features from amplified white noise.
+
+#### 4. MANDATORY PYTHON CODE DELIVERABLE
+Write a complete, self-contained, syntactically valid Python script in a single ```python ... ``` block that:
+1. Generates two independent 3D test volumes on a 32x32x32 grid containing a known bandlimited Gaussian signal plus independent additive Gaussian noise (calibrated to SNR = 0.2).
+2. Computes the radial Fourier Shell Correlation FSC(k) curve across spherical shells k ∈ [0, k_max].
+3. Finds the exact resolution shell where FSC crosses the 0.143 threshold.
+4. Implements a demonstration of the "masking artifact": applies a tight binary mask in real space to pure noise half-volumes and shows how uncorrected FSC produces an artificially high correlation (> 0.5) in the absence of any true signal.
+5. Implements phase randomization to correct for the mask artifact.
+6. Asserts that unmasked pure noise yields FSC ≈ 0.0, while uncorrected masking inflates FSC, and phase-randomized FSC correctly rejects the artifact.
+7. Deterministic Verification Output: The script MUST print verification results upon completing all assertions, including "PASSED: Cryo-EM FSC derivation and mask artifact correction verified, violations: 0" to stdout.
+
+#### 5. CITATION LEDGER
+Cite primary foundational papers (author, year, title, DOI/arXiv), including Frank (1996/2006), Rosenthal & Henderson (2003), Scheres & Chen (2012), and Zhong et al. (cryoDRGN, 2021).
+

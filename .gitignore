@@ -1,0 +1,43 @@
+# ==============================================================================
+# Git Ignore Configuration for free-dp
+# ==============================================================================
+
+# 1. Credential & Local Environment Overrides
+.env
+.env.local
+*.pem
+*.key
+*.cert
+*.pfx
+credentials.json
+client_secret*.json
+
+# 2. Runtime Outputs, Caches & Generated State
+runs/
+scratch/
+data/
+council_room.json
+cm_room_*.json
+final_dossier.md
+FINAL_VERDICT.md
+telemetry_*.json
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+*.log
+*.tmp
+*.sqlite
+*.duckdb
+
+# 3. Local IDE & Agent State
+.open-agent-bridge/
+.opencode/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

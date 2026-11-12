@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "open-agent-bridge": {
+      "command": "open-agent-bridge",
+      "args": ["mcp", "start"],
+      "env": {
+        "AGENT_BRIDGE_PROJECT": "."
+      }
+    }
+  }
+}
+

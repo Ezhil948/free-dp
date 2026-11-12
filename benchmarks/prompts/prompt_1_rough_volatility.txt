@@ -1,0 +1,47 @@
+Conduct an exhaustive, mathematically rigorous, and source-grounded academic research audit evaluating the theoretical foundations, numerical solvers, and high-frequency econometric calibration of Non-Markovian Rough Volatility Models and their Microstructural Foundations. Reconcile conflicting claims across the primary stochastic literature, identify boundary-condition failures, and resolve the following five multi-level core problems:
+
+### 1. The Microstructure Foundation & The Semimartingale No-Arbitrage Trap
+A common misconception asserts that because log-volatility behaves as a fractional Brownian motion with Hurst exponent H in (0, 1/2), the asset price process S_t can itself be modeled directly as a fractional Brownian motion S_t = S_0 + \int_0^t \mu_s ds + \sigma B_H(t).
+(a) Prove using the Bichteler-Dellacherie theorem why B_H(t) fails to be a semimartingale for any H != 1/2, and formalize the explicit continuous-time arbitrage strategy constructed by Rogers (1997) or Cheridito (2001).
+(b) Evaluate whether Guasoni’s (2006) theorem on strictly positive proportional transaction costs restores the No Free Lunch with Vanishing Risk (NFLVR) property, and state the exact necessary and sufficient pathwise conditions (e.g. conditional full support).
+(c) Derive the microscopic foundation: Starting from a multivariate nearly unstable / critical Hawkes point process for order arrivals where the mutual-excitation kernel exhibits heavy-tailed power-law memory \phi(t) ~ C t^{-(1+\alpha)} with \alpha = H + 1/2 in (1/2, 1), derive the scaling limit as the macroscopic observation scale approaches infinity (Jaisson & Rosenbaum 2015, 2016). Prove why a classical exponential kernel \phi(t) = \alpha e^{-\beta t} fails to generate rough volatility and collapses to standard Brownian diffusion.
+
+### 2. The Martingale Defect & Mass Loss Trap in Rough Volterra SDEs
+Consider the rough Heston model under a risk-neutral pricing measure Q:
+dS_t = S_t \sqrt{V_t} dW_t
+V_t = V_0 + \frac{1}{\Gamma(\alpha)} \int_0^t (t-s)^{\alpha - 1} \lambda (\theta - V_s) ds + \frac{1}{\Gamma(\alpha)} \int_0^t (t-s)^{\alpha - 1} \nu \sqrt{V_s} dW_s^\perp
+with \langle dW, dW^\perp \rangle = \rho, \alpha = H + 1/2 in (1/2, 1), and H in (0, 1/2).
+(a) Determine whether the discounted price process S_t is a true martingale or a strictly local martingale (i.e. exhibiting a martingale defect E[S_t] < S_0 leading to option mispricing bubbles).
+(b) Explain why classical diffusion criteria—specifically the Feller boundary condition (2\lambda\theta >= \nu^2), the Mijatović-Urusov deterministic integral tests, or Lions-Musiela analytical criteria—cannot be directly applied to Volterra stochastic differential equations due to the singular kernel K(t) = t^{\alpha - 1}/\Gamma(\alpha).
+(c) Detail the exact sufficient and necessary conditions established by Abi Jaber, Larsson, and Pulido (2019) or El Euch and Rosenbaum (2019) using affine Volterra representations to guarantee that S_t is a true martingale on [0, T].
+
+### 3. Fractional Riccati Singularity & Numerical Discretization Stabilities
+The joint characteristic function of log-price in the rough Heston model is characterized by the solution h(t, u) to the singular fractional Riccati equation:
+D^{1-\alpha} h(t, u) = \frac{1}{2}(i u - u^2) + (\lambda - i u \rho \nu) h(t, u) + \frac{1}{2}\nu^2 h(t, u)^2, \quad I^{1-\alpha} h(0, u) = 0
+or equivalently in Volterra integral form:
+h(t, u) = \int_0^t \frac{(t-s)^{\alpha - 1}}{\Gamma(\alpha)} F(u, h(s, u)) ds
+(a) Explain the analytical nature of the boundary singularity as t -> 0^+ where the kernel (t-s)^{\alpha - 1} diverges, and explain why classical 4th-order Runge-Kutta (RK4) and standard ODE solvers fail to maintain their convergence orders, suffering order collapse or explosive numerical instability.
+(b) Compare the Adams-Bashforth-Moulton (ABM) fractional predictor-corrector discretization method against the multi-factor Markovian lift (approximating the singular kernel via a sum of N decaying exponentials \sum_{i=1}^N c_i e^{-x_i t}).
+(c) State the exact convergence order O(\Delta t^{1+\alpha}) of the fractional ABM scheme vs the spectral convergence of Gauss-Laguerre / Padé multi-factor approximations, detailing the memory complexity O(M^2) vs O(N * M) over M time steps.
+
+### 4. The At-The-Money (ATM) Implied Volatility Skew Divergence vs Durrleman’s No-Arbitrage Condition
+Empirical equity index options exhibit an extreme power-law blow-up in ATM implied volatility skew as time-to-maturity \tau -> 0:
+\psi(\tau) = | \partial \sigma_{BS}(k, \tau) / \partial k |_{k=0} | ~ C \tau^{H - 1/2}
+For H ~ 0.1, H - 1/2 ~ -0.4, so \lim_{\tau -> 0} \psi(\tau) = +\infty.
+(a) Resolve whether this infinite slope as \tau -> 0 violates Durrleman’s condition for the absence of static butterfly arbitrage, or whether it violates Lee’s moment formulas.
+(b) Provide the rigorous asymptotic proof (following Fukasawa 2011, 2017; Bayer, Friz, Gatheral 2016) demonstrating how fractional rough volatility surfaces remain strictly arbitrage-free despite the singular short-dated skew.
+
+### 5. High-Frequency Microstructure Noise & Estimation Bias of H on Limit Order Books
+Consider ultra-high-frequency tick observations from an exchange Limit Order Book (LOB) where the observed log-price is contaminated by additive microstructure noise: X_t = Y_t + \epsilon_t, with E[\epsilon_t] = 0, Var(\epsilon_t) = \omega^2.
+(a) Prove why naive realized variance power-variation estimators:
+m(q, \Delta) = \frac{1}{N} \sum_{k=1}^N |X_{(k+1)\Delta} - X_{k\Delta}|^q
+suffer from massive upward bias when \Delta -> 0, corrupting the scaling regression \log m(q, \Delta) \approx q H \log \Delta + const and falsely making true rough volatility (H ~ 0.1) appear as standard Brownian motion (H ~ 0.5) or spurious super-diffusion (H > 0.5).
+(b) Detail the mathematical formulation of the Pre-averaging approach (Jacod, Li, Mykland, Podolskij, Vetter 2009) or Two-Scales Realized Volatility (TSRV) that filters out the noise variance \omega^2 to consistently isolate the true integrated variance and estimate the genuine Hurst parameter H in (0.08, 0.14).
+(c) Design an empirical benchmark protocol for calibrating this model on 1-second CME E-mini S&P 500 futures LOB data: specify the optimal pre-averaging window length k_n = \theta \sqrt{n}, choice of kernel g(x) = \min(x, 1-x), and finite-sample bias correction.
+
+### Deliverable Requirements:
+1. Provide an executive Claim Audit Table summarizing: Claim / Hypothesis, Mathematical Assumptions Required, Governing Primary Citations (Author, Year, Journal/arXiv ID), Proof / Validation Result, and Critical Boundary Caveats / Known Failure Modes.
+2. Directly cite and reconcile at least 8 primary foundational papers (including Gatheral et al., El Euch & Rosenbaum, Abi Jaber et al., Jaisson & Rosenbaum, Guasoni, Rogers, Jacod et al., and Fukasawa).
+3. Provide explicit pseudocode for both the Fractional Adams-Bashforth-Moulton solver and the Noise-Robust Pre-averaged realized variance estimator.
+4. Conclude with a rigorous section on "Unresolved Problems & Non-Identifiable Parameter Bounds" in the existing rough volatility literature.
+

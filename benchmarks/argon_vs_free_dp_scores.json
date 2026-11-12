@@ -1,0 +1,423 @@
+{
+  "P6": {
+    "title": "Hypersonic Aerothermodynamics & Finite-Rate Plasma Kinetics",
+    "argon": {
+      "full_uncapped_cri": 358.79,
+      "math_uncapped": 261.7,
+      "math_details": {
+        "display_equations": 50,
+        "inline_formulas": 317,
+        "math_symbols_count": 401,
+        "rigorous_connectors": 3,
+        "handwavy_penalties": 0,
+        "uncapped_math_depth_score": 261.7
+      },
+      "trap_score": 47.5,
+      "trap_details": {
+        "traps_covered": [
+          "frozen shock jump",
+          "ionization",
+          "catalytic wall",
+          "non-equilibrium"
+        ],
+        "traps_count": 4,
+        "numerical_boundary_metrics": 9,
+        "falsification_clauses": 2,
+        "uncapped_trap_score": 47.5
+      },
+      "lit_score": 10.5,
+      "lit_details": {
+        "doi_count": 3,
+        "arxiv_count": 0,
+        "formal_citations_count": 1,
+        "uncapped_source_score": 10.5
+      },
+      "script_score": 37.59,
+      "script_status": "PASSED (3.41s)",
+      "frontier_score": 1.5,
+      "non_math_cri": 97.09,
+      "capped_math_30_cri": 127.09,
+      "rubric_100": {
+        "total_100": 68.0,
+        "total_100_standalone_30s": 91.0,
+        "core_proofs_30": 30.0,
+        "empirical_script_25": 2.0,
+        "empirical_script_25_standalone_30s": 25.0,
+        "traps_boundaries_20": 17.0,
+        "sources_ledger_15": 15.0,
+        "unresolved_bounds_10": 4.0,
+        "script_status": "TIMEOUT (>20s) (PASSED 3.41s standalone)",
+        "wall_clock_time": "~10m (cloud)",
+        "llm_calls": "1 (single-agent)"
+      },
+      "pure_tech_cri": 86.59
+    },
+    "free_dp": {
+      "full_uncapped_cri": 201.63,
+      "math_uncapped": 50.4,
+      "math_details": {
+        "display_equations": 0,
+        "inline_formulas": 135,
+        "math_symbols_count": 99,
+        "rigorous_connectors": 0,
+        "handwavy_penalties": 0,
+        "uncapped_math_depth_score": 50.4
+      },
+      "trap_score": 53.0,
+      "trap_details": {
+        "traps_covered": [
+          "frozen shock jump",
+          "ionization",
+          "equilibrium specific heat",
+          "catalytic wall",
+          "non-equilibrium"
+        ],
+        "traps_count": 5,
+        "numerical_boundary_metrics": 4,
+        "falsification_clauses": 7,
+        "uncapped_trap_score": 53.0
+      },
+      "lit_score": 55.0,
+      "lit_details": {
+        "doi_count": 10,
+        "arxiv_count": 10,
+        "formal_citations_count": 0,
+        "uncapped_source_score": 55.0
+      },
+      "script_score": 31.23,
+      "script_status": "PASSED (1.77s)",
+      "frontier_score": 12.0,
+      "non_math_cri": 151.23,
+      "capped_math_30_cri": 181.23,
+      "rubric_100": {
+        "total_100": 95.0,
+        "core_proofs_30": 30.0,
+        "empirical_script_25": 20.0,
+        "traps_boundaries_20": 20.0,
+        "sources_ledger_15": 15.0,
+        "unresolved_bounds_10": 10.0,
+        "script_status": "PASSED (1.77s, Exit 0)",
+        "wall_clock_time": "7m 09s",
+        "llm_calls": 68,
+        "tokens_k": 458
+      },
+      "pure_tech_cri": 96.23
+    }
+  },
+  "P7": {
+    "title": "Sub-2nm Gate-All-Around (GAA) Nanosheet FET Quantum Transport (NEGF)",
+    "argon": {
+      "full_uncapped_cri": 417.68,
+      "math_uncapped": 237.1,
+      "math_details": {
+        "display_equations": 35,
+        "inline_formulas": 393,
+        "math_symbols_count": 312,
+        "rigorous_connectors": 1,
+        "handwavy_penalties": 0,
+        "uncapped_math_depth_score": 237.1
+      },
+      "trap_score": 95.0,
+      "trap_details": {
+        "traps_covered": [
+          "sub-2nm",
+          "gate length",
+          "source-to-drain tunneling",
+          "ballistic",
+          "self-energy",
+          "quantum confinement"
+        ],
+        "traps_count": 6,
+        "numerical_boundary_metrics": 28,
+        "falsification_clauses": 5,
+        "uncapped_trap_score": 95.0
+      },
+      "lit_score": 30.0,
+      "lit_details": {
+        "doi_count": 10,
+        "arxiv_count": 0,
+        "formal_citations_count": 0,
+        "uncapped_source_score": 30.0
+      },
+      "script_score": 48.08,
+      "script_status": "PASSED (1.92s)",
+      "frontier_score": 7.5,
+      "non_math_cri": 180.58,
+      "capped_math_30_cri": 210.58,
+      "rubric_100": {
+        "total_100": 91.5,
+        "core_proofs_30": 27.5,
+        "empirical_script_25": 25.0,
+        "traps_boundaries_20": 20.0,
+        "sources_ledger_15": 15.0,
+        "unresolved_bounds_10": 4.0,
+        "script_status": "PASSED (1.92s, Exit 0)",
+        "wall_clock_time": "~12m (cloud)",
+        "llm_calls": "1 (single-agent)"
+      },
+      "pure_tech_cri": 150.58
+    },
+    "free_dp": {
+      "full_uncapped_cri": 345.1,
+      "math_uncapped": 204.6,
+      "math_details": {
+        "display_equations": 19,
+        "inline_formulas": 415,
+        "math_symbols_count": 331,
+        "rigorous_connectors": 1,
+        "handwavy_penalties": 1,
+        "uncapped_math_depth_score": 204.6
+      },
+      "trap_score": 112.0,
+      "trap_details": {
+        "traps_covered": [
+          "sub-2nm",
+          "gate length",
+          "source-to-drain tunneling",
+          "ballistic",
+          "self-energy",
+          "quantum confinement"
+        ],
+        "traps_count": 6,
+        "numerical_boundary_metrics": 36,
+        "falsification_clauses": 10,
+        "uncapped_trap_score": 112.0
+      },
+      "lit_score": 4.0,
+      "lit_details": {
+        "doi_count": 0,
+        "arxiv_count": 1,
+        "formal_citations_count": 1,
+        "uncapped_source_score": 4.0
+      },
+      "script_score": 5.0,
+      "script_status": "FAILED (Exit 1): le \"scratch\\temp_discriminative_runner.py\", line 66, in <module>\n    assert abs(est - true_iv) < 0.05\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError",
+      "frontier_score": 19.5,
+      "non_math_cri": 140.5,
+      "capped_math_30_cri": 170.5,
+      "rubric_100": {
+        "total_100": 78.0,
+        "core_proofs_30": 30.0,
+        "empirical_script_25": 5.0,
+        "traps_boundaries_20": 20.0,
+        "sources_ledger_15": 13.0,
+        "unresolved_bounds_10": 10.0,
+        "script_status": "FAILED (AssertionError)",
+        "wall_clock_time": "5m 44s",
+        "llm_calls": 138,
+        "tokens_k": 960
+      },
+      "pure_tech_cri": 136.5
+    }
+  },
+  "P8": {
+    "title": "Riemannian Score-Based Diffusion Models & Submanifold Geometry",
+    "argon": {
+      "full_uncapped_cri": 471.8,
+      "math_uncapped": 335.3,
+      "math_details": {
+        "display_equations": 52,
+        "inline_formulas": 415,
+        "math_symbols_count": 778,
+        "rigorous_connectors": 10,
+        "handwavy_penalties": 2,
+        "uncapped_math_depth_score": 335.3
+      },
+      "trap_score": 49.0,
+      "trap_details": {
+        "traps_covered": [
+          "singularity",
+          "normal component",
+          "lebesgue",
+          "degenerate covariance",
+          "moore-penrose"
+        ],
+        "traps_count": 5,
+        "numerical_boundary_metrics": 0,
+        "falsification_clauses": 9,
+        "uncapped_trap_score": 49.0
+      },
+      "lit_score": 81.0,
+      "lit_details": {
+        "doi_count": 16,
+        "arxiv_count": 0,
+        "formal_citations_count": 22,
+        "uncapped_source_score": 81.0
+      },
+      "script_score": 5.0,
+      "script_status": "FAILED (Exit 1): , in run_riemannian_score_simulation\n    assert violations == 0, f\"Verification failed with {violations} violations.\"\n           ^^^^^^^^^^^^^^^\nAssertionError: Verification failed with 1 violations.",
+      "frontier_score": 1.5,
+      "non_math_cri": 136.5,
+      "capped_math_30_cri": 166.5,
+      "rubric_100": {
+        "total_100": 71.5,
+        "core_proofs_30": 27.5,
+        "empirical_script_25": 5.0,
+        "traps_boundaries_20": 20.0,
+        "sources_ledger_15": 15.0,
+        "unresolved_bounds_10": 4.0,
+        "script_status": "FAILED (AssertionError: 1 viol)",
+        "wall_clock_time": "~10m (cloud)",
+        "llm_calls": "1 (single-agent)"
+      },
+      "pure_tech_cri": 55.5
+    },
+    "free_dp": {
+      "full_uncapped_cri": 193.96,
+      "math_uncapped": 89.9,
+      "math_details": {
+        "display_equations": 11,
+        "inline_formulas": 162,
+        "math_symbols_count": 133,
+        "rigorous_connectors": 1,
+        "handwavy_penalties": 0,
+        "uncapped_math_depth_score": 89.9
+      },
+      "trap_score": 60.0,
+      "trap_details": {
+        "traps_covered": [
+          "singularity",
+          "normal component",
+          "lebesgue",
+          "degenerate covariance",
+          "moore-penrose"
+        ],
+        "traps_count": 5,
+        "numerical_boundary_metrics": 0,
+        "falsification_clauses": 20,
+        "uncapped_trap_score": 60.0
+      },
+      "lit_score": 4.0,
+      "lit_details": {
+        "doi_count": 0,
+        "arxiv_count": 1,
+        "formal_citations_count": 1,
+        "uncapped_source_score": 4.0
+      },
+      "script_score": 29.56,
+      "script_status": "PASSED (0.44s)",
+      "frontier_score": 10.5,
+      "non_math_cri": 104.06,
+      "capped_math_30_cri": 134.06,
+      "rubric_100": {
+        "total_100": 85.5,
+        "core_proofs_30": 27.5,
+        "empirical_script_25": 15.0,
+        "traps_boundaries_20": 20.0,
+        "sources_ledger_15": 13.0,
+        "unresolved_bounds_10": 10.0,
+        "script_status": "PASSED (0.44s, Exit 0)",
+        "wall_clock_time": "6m 19s",
+        "llm_calls": 68,
+        "tokens_k": 498
+      },
+      "pure_tech_cri": 100.06
+    }
+  },
+  "P9": {
+    "title": "Cryo-EM 3D Single-Particle Reconstruction & Continuous Heterogeneity",
+    "argon": {
+      "rubric_100": {
+        "total_100": 74.0,
+        "core_proofs_30": 30.0,
+        "traps_boundaries_20": 20.0,
+        "sources_ledger_15": 15.0,
+        "unresolved_bounds_10": 4.0,
+        "empirical_script_25": 5.0,
+        "script_status": "FAILED (Exit 1): ~~~~~~~~~~~^^\n  File \"scratch\\temp_benchmark_runner.py\", line 202, in run_cryoem_benchmark\n    assert violations == 0, f\"Verification failed with {violations} violations.\"\n           ^^^^^^^^^^^^^^^\nAssertionError: Verification failed with 1 violations.\n",
+        "wall_clock_time": "~11m (cloud)",
+        "llm_calls": "1 (single-agent)"
+      },
+      "full_uncapped_cri": 384.2,
+      "math_uncapped": 282.2,
+      "math_details": {
+        "display_equations": 49,
+        "inline_formulas": 318,
+        "math_symbols_count": 628,
+        "rigorous_connectors": 3,
+        "handwavy_penalties": 0,
+        "uncapped_math_depth_score": 282.2
+      },
+      "trap_score": 50.5,
+      "trap_details": {
+        "traps_covered": [
+          "einstein from noise",
+          "masking artifact",
+          "0.143",
+          "phase randomization",
+          "b-factor",
+          "gauge ambiguity"
+        ],
+        "traps_count": 6,
+        "numerical_boundary_metrics": 1,
+        "falsification_clauses": 1,
+        "uncapped_trap_score": 50.5
+      },
+      "lit_score": 45.0,
+      "lit_details": {
+        "doi_count": 10,
+        "arxiv_count": 0,
+        "formal_citations_count": 10,
+        "uncapped_source_score": 45.0
+      },
+      "script_score": 5.0,
+      "script_status": "FAILED (Exit 1): \", line 202, in run_cryoem_benchmark\n    assert violations == 0, f\"Verification failed with {violations} violations.\"\n           ^^^^^^^^^^^^^^^\nAssertionError: Verification failed with 1 violations.",
+      "frontier_score": 1.5,
+      "non_math_cri": 102.0,
+      "capped_math_30_cri": 132.0,
+      "pure_tech_cri": 57.0
+    },
+    "free_dp": {
+      "rubric_100": {
+        "total_100": 90.0,
+        "core_proofs_30": 30.0,
+        "traps_boundaries_20": 20.0,
+        "sources_ledger_15": 15.0,
+        "unresolved_bounds_10": 10.0,
+        "empirical_script_25": 15.0,
+        "script_status": "PASSED (0.44s)",
+        "wall_clock_time": "7m 47s",
+        "llm_calls": 72,
+        "tokens_k": 534
+      },
+      "full_uncapped_cri": 216.86,
+      "math_uncapped": 57.3,
+      "math_details": {
+        "display_equations": 7,
+        "inline_formulas": 103,
+        "math_symbols_count": 89,
+        "rigorous_connectors": 0,
+        "handwavy_penalties": 0,
+        "uncapped_math_depth_score": 57.3
+      },
+      "trap_score": 54.0,
+      "trap_details": {
+        "traps_covered": [
+          "einstein from noise",
+          "masking artifact",
+          "0.143",
+          "phase randomization",
+          "b-factor",
+          "gauge ambiguity"
+        ],
+        "traps_count": 6,
+        "numerical_boundary_metrics": 0,
+        "falsification_clauses": 6,
+        "uncapped_trap_score": 54.0
+      },
+      "lit_score": 64.0,
+      "lit_details": {
+        "doi_count": 10,
+        "arxiv_count": 10,
+        "formal_citations_count": 6,
+        "uncapped_source_score": 64.0
+      },
+      "script_score": 29.56,
+      "script_status": "PASSED (0.44s)",
+      "frontier_score": 12.0,
+      "non_math_cri": 159.56,
+      "capped_math_30_cri": 189.56,
+      "pure_tech_cri": 95.56
+    }
+  }
+}

@@ -1,0 +1,39 @@
+### PROBLEM DIRECTIVE: Non-Equilibrium Hypersonic Aerothermodynamics & Finite-Rate Plasma Chemical Kinetics
+
+You are acting as a Principal Aerothermodynamics Research Council. Provide an exhaustive, graduate-level theoretical derivation, finite-rate chemical kinetic analysis, and executable numerical simulation for hypersonic re-entry boundary layers.
+
+#### 1. FLUID & THERMOCHEMICAL SPECIFICATIONS
+- Scenario: Atmospheric re-entry of a blunt body at free-stream Mach number M_∞ = 14.5, altitude H = 65 km (ambient pressure P_∞ = 10.93 Pa, ambient temperature T_∞ = 233.3 K, free-stream density ρ_∞ = 1.63 × 10^-4 kg/m^3).
+- Gas Model: 5-species reacting air mixture: {N2, O2, NO, N, O}.
+- Thermal State: Two-temperature thermal non-equilibrium: translational-rotational temperature T and vibrational-electronic temperature T_v.
+- Kinetics Model: Park (1993) two-temperature finite-rate reaction mechanism with 17 elementary dissociation-recombination and exchange reactions.
+
+#### 2. MANDATORY THEORETICAL DERIVATIONS & MATHEMATICAL SPECIFICATIONS
+1. Governing Conservation Equations:
+   - Formulate the multi-component compressible Navier-Stokes equations with species continuity:
+     ∂_t(ρ Y_s) + ∇·(ρ u Y_s + J_s) = ω̇_s  for s ∈ {N2, O2, NO, N, O}
+   - Formulate the mixture momentum, total energy, and separate vibrational energy conservation equations.
+   - Detail the vibrational-translational energy exchange source term Q_{V-T} using the Landau-Teller relaxation model with Millikan-White collision times and Park's high-temperature empirical correction.
+2. Reaction Rates & Two-Temperature Governing Formulation:
+   - For dissociation reactions (e.g., N2 + M ⇌ 2N + M), define the effective controlling temperature T_a = T^q · T_v^(1-q) (stating the exact Park value for q).
+   - Write the exact law of mass action relating forward rate k_f(T_a), backward rate k_b(T), and the equilibrium constant K_c(T) derived from partition functions.
+3. 1D Normal Shock Jump Conditions:
+   - Derive the Rankine-Hugoniot shock relations across the shock front.
+   - Prove mathematically the distinction between the "frozen shock jump" state immediately behind the shock (where chemical composition and vibrational modes are frozen) and the "thermochemical equilibrium" state further downstream.
+
+#### 3. ADVERSARIAL TRAPS & BOUNDARY FAILURE MODES
+Directly address and resolve the following subtle failure modes:
+1. Equilibrium Fallacy: Why does assuming equilibrium specific heats (C_p(T)) or local chemical equilibrium severely overpredict peak stagnation heat flux and miscalculate shock stand-off distance?
+2. Model Scope & Ionization Boundaries: Why is the 5-species model strictly limited below ~8 km/s? At what exact velocity and temperature threshold does NO+ and e- ionization become non-negligible, and why does a 5-species solver catastrophically fail if applied at M_∞ = 25?
+3. Catalytic Wall Ambiguity: Differentiate mathematically between an ideal non-catalytic wall (∂Y_s/∂n = 0), a fully catalytic wall (Y_s = Y_{s,eq}), and a finite-rate catalytic wall using Goulard's recombination efficiency γ_s. Show how surface recombination alters wall heat transfer.
+
+#### 4. MANDATORY PYTHON CODE DELIVERABLE
+Write a complete, self-contained, syntactically valid Python script in a single ```python ... ``` block that:
+1. Implements a 1D post-shock relaxation model: takes post-shock frozen state conditions for M_∞ = 14.5 and integrates downstream distance x using a stiff ODE integrator (e.g., scipy.integrate.solve_ivp).
+2. Computes the spatial relaxation of translational temperature T(x), vibrational temperature T_v(x), and species mass fractions Y_{O2}(x), Y_O(x), Y_{NO}(x).
+3. Asserts elemental mass conservation (total mass fraction sum = 1.0 ± 1e-6 and Nitrogen/Oxygen atom ratio is strictly conserved).
+4. Deterministic Verification Output: The script MUST print verification results upon completing all assertions, including "PASSED: Hypersonic non-equilibrium relaxation verified, violations: 0" to stdout.
+
+#### 5. CITATION LEDGER
+Cite primary foundational papers (author, year, title, DOI/arXiv), specifically referencing Park (1990/1993), Millikan & White (1963), and Goulard (1958).
+

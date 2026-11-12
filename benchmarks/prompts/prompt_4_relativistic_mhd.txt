@@ -1,0 +1,43 @@
+Conduct an exhaustive, mathematically rigorous, and source-grounded academic research audit evaluating the theoretical formulations, discontinuous shock-capturing schemes, and solenoidal magnetic constraints of Special Relativistic Magnetohydrodynamics (RMHD). Reconcile conflicting claims across computational astrophysics, relativistic fluid dynamics, and numerical analysis literature, identify boundary-condition failures, and resolve the following five multi-level core problems:
+
+### 1. Conservative Formulation & Non-Analytic Primitive Variable Recovery
+Consider the 3D ideal Special Relativistic MHD system written in conservative flux-divergence form:
+\partial_t \mathbf{U} + \sum_{i=1}^3 \partial_i \mathbf{F}^i(\mathbf{U}) = 0
+with conserved state vector \mathbf{U} = (D, \mathbf{S}, \tau, \mathbf{B})^T, where D = \gamma \rho is relativistic laboratory density, \mathbf{S} = (w \gamma^2 + B^2)\mathbf{v} - (\mathbf{v} \cdot \mathbf{B})\mathbf{B} is momentum density, \tau = w \gamma^2 - p + \frac{1}{2}(1 + v^2)B^2 - \frac{1}{2}(\mathbf{v} \cdot \mathbf{B})^2 - D is total energy density excluding rest-mass, and w = \rho + \frac{\Gamma}{\Gamma - 1}p is specific enthalpy under an ideal gas equation of state.
+(a) Prove mathematically why the mapping from conserved variables \mathbf{U} to primitive variables \mathbf{P} = (\rho, \mathbf{v}, p, \mathbf{B})^T admits no closed-form analytical inverse, requiring numerical inversion.
+(b) Formulate the robust 1D / 2D Newton-Raphson scheme (Mignone & Bodo 2005; Del Zanna et al. 2007; Newman & Hamlin 2014) reducing primitive variable recovery to root-finding for the single auxiliary variable z = \gamma^2 w. Prove the existence and uniqueness of the physical root within the physical state space \mathcal{S}_{phys} = \{\mathbf{P} \in \mathbb{R}^8 : \rho > 0, p > 0, \|\mathbf{v}\|^2 < 1\}.
+(c) Analyze catastrophic failure modes: explain why in magnetically dominated regimes (\sigma = B^2 / (\rho c^2) \gg 1) or ultra-relativistic bulk Lorentz factors (\gamma \gg 10), standard root-finding fails or produces unphysical negative thermal pressure p < 0 due to floating-point roundoff cancellation in \tau - \frac{1}{2}B^2.
+
+### 2. The Solenoidal Magnetic Constraint \nabla \cdot \mathbf{B} = 0 & Hyperbolic Divergence Cleaning
+(a) Explain the analytical consequence of non-zero magnetic divergence \nabla \cdot \mathbf{B} \neq 0 in multidimensional RMHD: derive the unphysical Powell source term -(\nabla \cdot \mathbf{B})\mathbf{B} and prove why non-zero divergence violates strict momentum conservation, leading to artificial plasma acceleration along field lines.
+(b) Detail the Constrained Transport (CT) algorithm on staggered Yee meshes (Evans & Hawley 1988; Gardiner & Stone 2005): prove using Stokes' theorem why updating face-centered magnetic fluxes via edge-centered electric fields preserves \nabla \cdot \mathbf{B} = 0 to machine precision for all time t > 0.
+(c) Detail Dedner’s Hyperbolic Divergence Cleaning scheme (Dedner et al. 2002; Mignone & Tzeferacos 2010) introducing a scalar generalized Lagrange multiplier \psi:
+\partial_t \mathbf{B} + \nabla \times (\mathbf{E}) + c_h \nabla \psi = 0
+\partial_t \psi + c_h \nabla \cdot \mathbf{B} = - (c_h / c_p) \psi
+Prove the mixed hyperbolic-parabolic dispersion relation, show that magnetic divergence errors propagate away at cleaning speed c_h while damping exponentially with rate c_h / c_p, and analyze the energy dissipation trap where over-aggressive damping drains physical magnetic energy from the plasma.
+
+### 3. Discontinuous Riemann Solvers & Rotational Wave Resolution: HLL vs HLLC vs HLLD
+(a) Contrast the wave structure of standard relativistic hydrodynamics (3 waves: 2 acoustic shocks/rarefactions and 1 contact discontinuity) with ideal RMHD (7 waves: 2 fast magnetoacoustic, 2 intermediate Alfvén, 2 slow magnetoacoustic, and 1 contact discontinuity).
+(b) Formulate the HLL (Harten-Lax-van Leer) two-state approximate Riemann solver and prove why it severely smears out intermediate Alfvén discontinuities and contact surfaces due to excessive numerical diffusion.
+(c) Formulate the multi-state Relativistic HLLD solver (Miyoshi & Kusano 2005; Mignone et al. 2009): detail the 5-wave approximation separating states by Alfvén wave speeds \lambda_{-A}, \lambda_{+A} and contact speed \lambda_C. Derive the jump conditions across the Alfvén waves and prove why resolving rotational discontinuities is mandatory to prevent numerical suppression of the Magnetorotational Instability (MRI).
+
+### 4. High-Order Shock Capturing, TVD Order Collapse & WENO-Z Reconstruction
+(a) Detail classical Total Variation Diminishing (TVD) slope limiters (MinMod, Superbee, Monotonized Central) applied to primitive or characteristic variables. Prove why TVD limiters inevitably collapse from 2nd-order to 1st-order spatial accuracy at smooth extrema where \partial_x \mathbf{P} = 0, causing excessive numerical clipping.
+(b) Formulate the 5th-order WENO-Z reconstruction scheme (Borges et al. 2008) across 3-cell stencils. Derive the smoothness indicators \beta_k (k=0, 1, 2) and the global higher-order indicator \tau_5 = |\beta_0 - \beta_2|. Prove how WENO-Z eliminates the loss of accuracy of classical Jiang-Shu WENO near non-zero critical points without sacrificing non-oscillatory shock-capturing properties.
+(c) Explain the necessity of Characteristic Variable Reconstruction over Component-wise Reconstruction in relativistic flows, detailing how projecting primitive fluctuations onto left and right RMHD eigenvectors prevents spurious post-shock oscillations.
+
+### 5. Positivity-Preserving Limiters in Magnetically Dominated Relativistic Plasmas
+In extreme astrophysical environments (pulsar magnetospheres, relativistic blazar jets, gamma-ray bursts) where magnetization \sigma = B^2/\rho \gg 10^3:
+(a) Prove why standard higher-order spatial reconstruction followed by explicit Runge-Kutta time integration fails to guarantee positivity of density \rho > 0 and pressure p > 0, even when the 1st-order Lax-Friedrichs building block is positivity-preserving.
+(b) Formulate the Zhang & Shu (2010) / Radice et al. (2014) Convex-Combination Positivity-Preserving Limiter for relativistic flows: prove that because the set of admissible primitive states \mathcal{S}_{phys} is convex, a parameterized rescaling of reconstructed interface polynomial states rigorously guarantees that the updated cell average remains strictly within \mathcal{S}_{phys}.
+(c) Define the exact CFL stability condition required to preserve positivity in the presence of strong magnetic pressure gradients.
+
+### Deliverable Requirements:
+1. Provide an executive Claim Audit Table summarizing: Formulation / Shock-Capturing Algorithm, Relativistic Invariant / Constraint, Governing Primary Citations (Author, Year, Journal/arXiv ID), Proof Result, and Failure Regimes.
+2. Directly cite and reconcile at least 8 foundational papers (including Mignone & Bodo 2005; Del Zanna et al. 2007; Dedner et al. 2002; Evans & Hawley 1988; Miyoshi & Kusano 2005; Mignone et al. 2009 / HLLD; Borges et al. 2008 / WENO-Z; Zhang & Shu 2010).
+3. Provide explicit, self-contained Python code implementing:
+   - A robust 1D primitive variable recovery root-finder from conserved RMHD variables with convexity and physicality checks.
+   - A 1D Dedner GLM divergence cleaning update scheme.
+   - A 1D relativistic Riemann shock-tube benchmark solver (Balsara 1 / Brio-Wu relativistic test) comparing HLL vs HLLD wave resolution.
+4. Conclude with a rigorous section on "Numerical Pathologies in Relativistic Plasmas: The Carbuncle Phenomenon and Odd-Even Decoupling across Strong Relativistic Shocks".
+

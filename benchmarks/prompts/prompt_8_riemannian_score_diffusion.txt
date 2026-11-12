@@ -1,0 +1,41 @@
+### PROBLEM DIRECTIVE: Riemannian Score-Based Diffusion Models & Submanifold Geometry
+
+You are acting as a Principal Theoretical Machine Learning Research Council. Provide an exhaustive mathematical derivation, stochastic differential equation (SDE) proof, and executable simulation script for score-based generative diffusion models operating under the Manifold Hypothesis.
+
+#### 1. GEOMETRIC & STATISTICAL FORMULATION
+- Setting: Target probability measure p_data is supported on an unknown d-dimensional smooth, compact Riemannian submanifold M embedded in Euclidean space R^D with d ≪ D (e.g., d=2, D=10).
+- Ambient Diffusion: The standard Euclidean forward Ornstein-Uhlenbeck (OU) SDE in R^D:
+  dX_t = -1/2 β(t) X_t dt + sqrt(β(t)) dW_t
+- Intrinsic Diffusion: The Riemannian Brownian motion on (M, g) driven by the Laplace-Beltrami operator Δ_M.
+
+#### 2. MANDATORY THEORETICAL DERIVATIONS & PROOFS
+1. Singularity of the Ambient Score (Lu et al., 2023):
+   - Under the ambient forward diffusion, write the conditional Gaussian transition kernel p_{t|0}(x_t | x_0) in R^D.
+   - For an observation x_0 ∈ M, decompose the ambient score ∇_{x_t} log p_t(x_t) into tangential components (along the tangent space T_{x_0} M) and normal components (along the normal space N_{x_0} M).
+   - Prove that as t → 0, the normal score component diverges as O(1/σ_t^2), while the tangential score projection approaches the intrinsic score ∇_M log p_data(x_0).
+2. Time-Reversal on Manifolds:
+   - State Anderson's time-reversal theorem for SDEs in Euclidean space.
+   - Derive the corresponding time-reversal formula on a Riemannian manifold (M, g) with volume form dV_g. Prove how the Riemannian divergence div_g and Levi-Civita connection appear in the reverse drift.
+3. Tweedie's Formula Under Degenerate Covariance:
+   - Derive classical Tweedie's formula: E[X_0 | X_t = x] = x + σ_t^2 ∇_x log p_t(x).
+   - Prove why Tweedie's formula becomes ill-conditioned or breaks down when applied to noise models with singular or anisotropic covariance matrices, and formulate the correct Moore-Penrose pseudo-inverse projection.
+
+#### 3. ADVERSARIAL TRAPS & THEORETICAL PITFALLS
+Directly address and resolve the following traps:
+1. The Smooth Ambient Density Fallacy: Why is it mathematically invalid to assume p_data has a smooth probability density with respect to the Lebesgue measure on R^D? Why does standard maximum likelihood estimation (MLE) diverge to +∞?
+2. Extrinsic vs Geodesic Heat Kernel: Explain why using Euclidean distance ||x - y||^2 in the ambient heat kernel introduces curvature-induced distortion when approximating diffusion on M, referencing Varadhan's asymptotic formula for Riemannian heat kernels: -2t log p_t(x, y) → d_M(x, y)^2 as t → 0.
+3. Wasserstein-Fisher-Rao & Optimization Convergence: Under what exact geometric assumptions does score matching guarantee convergence of the generated distribution to p_data in Wasserstein distance W_2? Why does curvature of M induce topological bottlenecks in sampling?
+
+#### 4. MANDATORY PYTHON CODE DELIVERABLE
+Write a complete, self-contained, syntactically valid Python script in a single ```python ... ``` block that:
+1. Implements a synthetic 1D circle S^1 (radius R=1.0) embedded in R^2 (d=1, D=2) with an explicit non-uniform density p_data(θ) = 1 + 0.5 sin(θ).
+2. Simulates forward ambient Gaussian perturbation with noise variance σ_t^2 for decreasing time steps t ∈ [1.0, 0.1, 0.01, 0.001].
+3. For points near the manifold, explicitly calculates the numerical score vector ∇_x log p_t(x) and projects it into:
+   - Tangential component: v_tan = ⟨∇_x log p_t(x), τ⟩
+   - Normal component: v_norm = ⟨∇_x log p_t(x), n̂⟩
+4. Asserts that the normal score component scales asymptotically as O(1/σ_t^2), confirming the theoretical singularity, while the tangential component converges to the intrinsic derivative d/dθ log p_data.
+5. Deterministic Verification Output: The script MUST print verification results upon completing all assertions, including "PASSED: Riemannian score singularity and decomposition verified, violations: 0" to stdout.
+
+#### 5. CITATION LEDGER
+Cite primary foundational literature (author, year, title, DOI/arXiv), including Song et al. (2020/2021), De Bortoli et al. (2022), Lu et al. (2023), and Varadhan (1967).
+

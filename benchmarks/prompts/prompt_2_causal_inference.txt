@@ -1,0 +1,42 @@
+Conduct an exhaustive, mathematically rigorous, and source-grounded academic research audit evaluating the theoretical foundations, identification boundaries, and computational estimators for Longitudinal Causal Inference with Dynamic Time-Varying Treatments, Feedback Confounding, and Network Interference under SUTVA Violations. Reconcile conflicting claims across the biostatistical, econometric, and reinforcement learning literature, identify boundary-condition failures, and resolve the following five multi-level core problems:
+
+### 1. Time-Varying Confounding, Collider Stratification & The G-Null Paradox
+Consider a longitudinal observational study observed at discrete times k = 0, 1, ..., K with time-varying treatments A_k, time-varying covariates L_k, and terminal outcome Y.
+(a) Prove mathematically using DAGs and potential outcome calculus why classical conditional regression adjustment (conditioning on past covariate and treatment history H_k = (L_k, A_{k-1})) suffers from structural collider-stratification bias whenever past treatment A_{k-1} affects future intermediate covariates L_k that simultaneously confound future treatment A_k and mediate the effect of A_{k-1} on Y.
+(b) Derive Robins’ (1986, 2000) Parametric G-Computation Formula for the counterfactual mean E[Y^{\bar{a}}] under sequential ignorability / conditional exchangeability. Explain why standard parametric g-computation suffers from the "g-null paradox" where the null hypothesis of no treatment effect is rejected with probability approaching 1 as sample size grows under model misspecification.
+(c) Formulate Robins' Marginal Structural Model (MSM) with stabilized inverse probability of treatment weights (sw_i(t)). Prove that stabilized weights have strictly smaller variance than non-stabilized weights while preserving consistency under positivity.
+
+### 2. Network Interference & Structural SUTVA Violations
+Consider N units connected via an arbitrary, non-sparse directed adjacency matrix W in R^{N x N} where unit i's potential outcome Y_i(\mathbf{a}) depends on the entire global treatment assignment vector \mathbf{a} = (a_1, ..., a_N)^T \in {0, 1}^N, violating Rubin’s Stable Unit Treatment Value Assumption (SUTVA).
+(a) Define the generalized neighborhood exposure mapping g_i(\mathbf{a}) = (a_i, \sum_{j \in \mathcal{N}_i} w_{ij} a_j) under partial interference and anonymous network spillover (Aronow & Samii 2017; Manski 2013). State the exact structural graph conditions under which individual treatment effects and spillover effects are non-parametrically point-identified.
+(b) Derive the Horvitz-Thompson network estimator and the Hájek ratio-stabilized estimator for the average spillover effect. Prove why the Horvitz-Thompson estimator is strictly unbiased but suffers from extreme variance explosion as network density increases, whereas the Hájek estimator introduces a finite-sample bias of order O(1/N) while strictly reducing mean squared error (MSE).
+(c) Resolve how unobserved network homophily (latent social cluster confounding) creates spurious spillover effects, and detail Shalizi & Thomas’ (2011) impossibility theorem regarding the non-identifiability of peer contagion from homophily without temporal ordering or exogenous shocks.
+
+### 3. Structural Nested Mean Models (SNMM) & Optimal Dynamic Treatment Regimes
+Let d = (d_1, ..., d_K) denote a dynamic treatment regime (DTR) where decision rule d_k maps history H_k to treatment space {0, 1}.
+(a) Formulate the optimal dynamic regime via backward induction / Bellman optimality equations using Robins’ Blip Function \gamma_k(h_k, a_k; \psi^*). Formulate the G-estimation estimating equations for the blip parameter vector \psi^*.
+(b) Identify and analyze the "non-regularity / non-smoothness trap" in optimal dynamic regime estimation: explain why when the optimal treatment effect blip \gamma_k(h_k, a_k; \psi^*) has positive probability of being zero (the boundary case of treatment indifference), the asymptotic distribution of the value function estimator is non-Gaussian, and prove why standard non-parametric bootstrap confidence intervals fail to achieve nominal coverage.
+(c) Compare Q-learning, A-learning, and Doubly Robust Augmented Inverse Probability Weighting (AIPW) value search in finite samples, detailing their robustness to rate-double-robustness requirements (e.g. Kennedy 2019).
+
+### 4. Unobserved Confounding & Proximal Causal Inference
+Suppose treatment-outcome confounding U is unobserved, violating exchangeability. Introduce the Proximal Causal Inference framework (Miao, Geng, Tchetgen Tchetgen 2018; Cui, Pu, Shi, Miao, Tchetgen Tchetgen 2023) with treatment-inducing proxy Z and outcome-inducing proxy W.
+(a) State the precise conditional independence assumptions linking (A, Y, U, Z, W) and the completeness conditions on the conditional expectation operators E[ \cdot | A, Z] and E[ \cdot | A, W].
+(b) Formulate the Fredholm integral equation of the first kind for the outcome confounding bridge function h_0(w, a, x):
+E[Y | A=a, Z=z, X=x] = \int h_0(w, a, x) dF(w | a, z, x)
+Explain why this inverse problem is fundamentally ill-posed in the sense of Hadamard, and detail the Tikhonov-regularized / minimax RKHS estimation methods required to prevent variance blow-up.
+(c) Formulate the Doubly Robust Proximal Causal Estimator using both the outcome bridge function h_0 and the treatment bridge function q_0, and state its root-n asymptotic normality and semiparametric efficiency bound.
+
+### 5. Continuous-Action Off-Policy Evaluation (OPE) & High-Dimensional Minimax Rates
+In sequential decision making and causal bandits with continuous treatment doses A \in \mathcal{A} \subset \mathbb{R}^d:
+(a) Prove why classical importance sampling weights \frac{\pi(a|s)}{p(a|s)} collapse to Dirac delta measures when evaluated on continuous action spaces, yielding infinite variance.
+(b) Formulate the Non-Parametric Kernel Doubly Robust OPE estimator (Kallus & Zhou 2018; Colangelo & Lee 2020) utilizing a smoothing kernel K_h(A - \pi(S)) with bandwidth h.
+(c) Derive the optimal bandwidth scaling h^* \sim n^{-1/(4+d)} and prove the minimax optimal convergence rate O(n^{-4/(4+d)}) for estimating the counterfactual value function, explicitly demonstrating the curse of dimensionality as action dimension d increases.
+
+### Deliverable Requirements:
+1. Provide an executive Claim Audit Table summarizing: Claim / Hypothesis, Mathematical Assumptions Required, Governing Primary Citations (Author, Year, Journal/arXiv ID), Proof / Validation Result, and Critical Boundary Caveats / Known Failure Modes.
+2. Directly cite and reconcile at least 8 foundational papers (including Robins 1986, 2000; Aronow & Samii 2017; Manski 2013; Shalizi & Thomas 2011; Miao et al. 2018; Cui et al. 2023; Kallus & Zhou 2018; Kennedy 2019).
+3. Provide explicit, self-contained Python code implementing:
+   - A Monte Carlo simulation demonstrating collider stratification bias in classical regression vs unbiasedness of stabilized IPTW under treatment-confounder feedback.
+   - Network exposure mapping and Horvitz-Thompson vs Hájek variance comparison on a synthetic Erdős–Rényi graph.
+4. Conclude with a rigorous section on "Unresolved Problems & Identification Bounds under Dense Graph Contagion".
+

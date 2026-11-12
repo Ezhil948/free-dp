@@ -1,0 +1,43 @@
+Conduct an exhaustive, mathematically rigorous, and source-grounded academic research audit evaluating the theoretical hardness reductions, non-asymptotic lattice sieving complexity, decryption failure probability, and side-channel countermeasures of Post-Quantum Lattice-Based Cryptography (NIST FIPS 203 ML-KEM / CRYSTALS-Kyber and FIPS 204 ML-DSA / CRYSTALS-Dilithium). Reconcile conflicting claims across theoretical cryptography, algorithmic lattice reduction, and hardware security literature, identify boundary-condition failures, and resolve the following five multi-level core problems:
+
+### 1. Ring-LWE vs Module-LWE Foundations & Worst-Case to Average-Case Reductions
+Let R = \mathbb{Z}[x]/(x^n + 1) with n = 256 (a power-of-two cyclotomic ring) and R_q = R / q R = \mathbb{Z}_q[x]/(x^{256} + 1).
+(a) Formalize the Module Learning With Errors (\text{M-LWE}_{n, q, k, \eta}) search and decision problems over module rank k \in \{2, 3, 4\} with modulus q = 3329 (ML-KEM-512, 768, 1024) and centered binomial noise distribution D_\eta.
+(b) Detail the Langlois & Stehlé (2015) quantum and classical reductions from the approximate Shortest Vector Problem over module lattices (\text{Mod-SVP}_\gamma) to \text{M-LWE}: prove why module lattices bypass the known geometric vulnerabilities of principal ideal rings (e.g. quantum polynomial-time attacks on principal ideal lattices under subfield log-unit embeddings; Campbell, Groves, Shepherd 2014; Cramer et al. 2016) while maintaining compact polynomial arithmetic and algebraic flexibility.
+(c) Formalize the Module Short Integer Solution (\text{M-SIS}_{n, q, k, \beta}) problem and SelfTargetMSIS used in ML-DSA (FIPS 204) with q = 8380417. Prove the hardness reduction from \text{Mod-SVP}_\gamma to M-SIS and state the exact threshold for \beta below which finding short vectors is asymptotically as hard as lattice problems on general Euclidean lattices of dimension d = n \cdot k.
+
+### 2. Primal vs Dual Lattice Attacks & Concrete Core-SVP Hardness
+In concrete cryptanalysis of ML-KEM:
+(a) Formalize the Primal uSVP Attack: Embed the M-LWE sample (\mathbf{A}, \mathbf{b} = \mathbf{A}\mathbf{s} + \mathbf{e}) into a Kannan embedding lattice of dimension D = n \cdot k + n \cdot m + 1. Derive the condition on Block Korkine-Zolotarev (BKZ) block size \beta required for the shortest vector to be detected via the Geometric Series Assumption (GSA) and the Gaussian heuristic:
+\sigma \sqrt{\beta} \le \delta_\beta^{2\beta - D - 1} (\det \Lambda)^{1/D}
+(b) Formalize the Dual Lattice Sieve Attack: Derive the short dual vector relation \mathbf{w}^T \mathbf{A} \equiv 0 \pmod q and compute the distinguishing advantage \epsilon = \exp(-\pi \|\mathbf{w}\|^2 \sigma^2 / q^2).
+(c) State the Core-SVP hardness formula \text{Cost}(\beta) = 2^{0.292 \beta + o(\beta)} based on the best known classical lattice sieving algorithms (BDGL16 / Becker, Ducas, Gama, Schmitz 2016). Evaluate the impact of "Dimension-for-Free" sieving optimizations (Ducas 2018) and prove why asymptotic quantum speedups from Grover search (reducing the exponent to 0.265 \beta) do not threaten the 128-bit classical security of ML-KEM-512.
+
+### 3. Decryption Failure Probability (DFP) & Extreme Tail Bounds
+In ML-KEM, decryption failure occurs when the rounding error term:
+e_{dec} = \mathbf{s}^T \mathbf{e}' - \mathbf{e}^T \mathbf{s}' + e'' - c_v
+exceeds q/4 for any polynomial coefficient.
+(a) Prove why naive union bounds over the n = 256 polynomial coefficients produce grossly pessimistic DFP bounds, severely underestimating scheme security.
+(b) Detail the exact Poisson summation / sum-of-independent-centered-binomial distribution method (D'Anvers, Vercauteren, Verbauwhede 2019) used in NIST FIPS 203: derive the exact discrete distribution of the coefficient inner product \langle \mathbf{a}, \mathbf{b} \rangle = \sum_{j=1}^{k} \sum_{i=0}^{n-1} a_{j,i} b_{j,i} and calculate the exact DFP bound \le 2^{-139} for ML-KEM-512 and \le 2^{-164} for ML-KEM-768.
+(c) Analyze directional failure boosting attacks: explain how an adversary who observes a decryption failure can query crafted ciphertexts to reconstruct the secret key vector \mathbf{s} in polynomial time, and detail how the Fujisaki-Okamoto transform neutralizes this vulnerability.
+
+### 4. The Fujisaki-Okamoto Transform & Chosen-Ciphertext Security in the QROM
+(a) Detail the quantum-accessible Random Oracle Model (QROM) variant of the Fujisaki-Okamoto (FO) transform (U_m^\not\bot; Hofheinz, Hövelmanns, Kiltz 2017) converting the IND-CPA public-key encryption scheme into the IND-CCA2 Key Encapsulation Mechanism.
+(b) Prove the necessity of Explicit Rejection vs Pseudorandom Implicit Rejection: explain why returning a pseudorandom key K = \text{H}(z, c) upon re-encryption check failure c \neq \text{Enc}(pk, m'; r') eliminates decryption timing side-channels and invalid-ciphertext oracle attacks.
+(c) Reconcile the tight security proof in the classical ROM with the non-tight bound in the QROM: evaluate the semi-classical oracle techniques of Zhandry (2019) and explain how the Targhi-Unruh hashing modifier provides post-quantum CCA security without significant computational overhead.
+
+### 5. High-Order Masking & Side-Channel Resistance for Polynomial Arithmetic
+Differential Power Analysis (DPA) and Correlation Power Analysis (CPA) on hardware implementations (ARM Cortex-M4, FPGA, ASIC) can extract secret polynomials \mathbf{s} during NTT operations or centered binomial sampling.
+(a) Formulate the d-th order masking scheme (Ishai-Sahai-Wagner / Rivain-Prouff) for arithmetic mod q: represent secret element x \in \mathbb{Z}_q as d+1 shares \sum_{i=0}^d x_i \equiv x \pmod q.
+(b) Detail the masked Number Theoretic Transform (NTT) algorithm: prove why linear NTT operations can be computed share-wise with O(d \cdot n \log n) complexity, whereas non-linear modular reductions and point-wise polynomial multiplications require secure gadget evaluation scaling as O(d^2 \cdot n \log n).
+(c) Detail the Goubin (2001) / Coron et al. (2014) Arithmetic-to-Boolean (A2B) and Boolean-to-Arithmetic (B2A) share conversion algorithms required during masked ciphertext decoding and message hashing, proving that zero intermediate unshared secret leakage occurs under the d-th order probing security model.
+
+### Deliverable Requirements:
+1. Provide an executive Claim Audit Table summarizing: Hardness Assumption / Algorithmic Primitive, Cryptanalytic Parameter Bounds, Governing Primary Citations (Author, Year, Journal/arXiv ID), Proof / Reduction Result, and Side-Channel / Failure Boundaries.
+2. Directly cite and reconcile at least 8 foundational papers (including Langlois & Stehlé 2015; Becker et al. 2016 / BDGL16; Ducas 2018; D'Anvers et al. 2019; Hofheinz et al. 2017; Zhandry 2019; Ishai et al. 2003; Coron et al. 2014).
+3. Provide explicit, self-contained Python code implementing:
+   - A centered binomial distribution sampler D_\eta and NTT polynomial multiplication in \mathbb{Z}_{3329}[x]/(x^{256} + 1).
+   - An exact numerical calculation of the Decryption Failure Probability (DFP) tail bound for ML-KEM-512 via discrete distribution convolution.
+   - A 1st-order Boolean-to-Arithmetic (B2A) share conversion function with non-interference verification.
+4. Conclude with a rigorous section on "Unresolved Theoretical Gaps: Non-Asymptotic Sieve Heuristics, Quantum Random Walks, and Sub-Field Log-Unit Vulnerabilities in Module Lattices".
+

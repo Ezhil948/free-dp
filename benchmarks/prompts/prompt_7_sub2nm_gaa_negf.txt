@@ -1,0 +1,45 @@
+### PROBLEM DIRECTIVE: Sub-2nm Gate-All-Around (GAA) Nanosheet Field-Effect Transistor (Quantum Transport via NEGF)
+
+You are acting as a Principal Quantum Nanoelectronics Research Council. Provide an exhaustive, mathematically rigorous quantum transport analysis, Hamiltonian derivation, and self-consistent simulation script for sub-2nm node Gate-All-Around (GAA) Nanosheet Field-Effect Transistors.
+
+#### 1. DEVICE ARCHITECTURE & PHYSICAL PARAMETERS
+- Architecture: 3-tier horizontally stacked Si Gate-All-Around (GAA) Nanosheet nMOSFET.
+- Dimensions: Physical gate length L_g = 12 nm, nanosheet thickness T_ns = 5 nm, nanosheet width W_ns = 25 nm, effective oxide thickness EOT = 0.6 nm (HfO2/interfacial SiO2 stack, dielectric constant ε_ox = 18).
+- Doping: Source/Drain n+ doping N_SD = 1 × 10^20 cm^-3, Channel intrinsic/p-type N_ch = 1 × 10^15 cm^-3.
+- Operating Conditions: Room temperature T = 300 K, supply voltage V_DD = 0.7 V.
+
+#### 2. MANDATORY THEORETICAL DERIVATIONS & QUANTUM FORMULATIONS
+1. Hamiltonian Formulation:
+   - Formulate the effective mass Hamiltonian H_0 for Silicon conduction band unprimed Δ_2 and primed Δ_4 subband valleys along the [100] transport direction.
+   - State the 2D transverse confinement energy levels E_{n_y, n_z} and longitudinal effective masses m_l^* = 0.916 m_0, m_t^* = 0.190 m_0.
+2. Non-Equilibrium Green's Function (NEGF) Transport:
+   - Formulate the retarded Green's function matrix:
+     G^r(E) = [(E + iη)I - H - Σ_S(E) - Σ_D(E) - Σ_scatt(E)]^-1
+   - Derive the open boundary condition contact self-energies Σ_S(E) and Σ_D(E) using the Sanvito / Sancho-Rubio decimation method or analytical 1D semi-infinite lead representations.
+   - Define the contact broadening matrices Γ_S = i(Σ_S - Σ_S^†) and Γ_D = i(Σ_D - Σ_D^†).
+3. Transmission & Current:
+   - Formulate the Caroli / Landauer-Büttiker transmission function: T(E) = Tr[Γ_S G^r Γ_D G^a].
+   - Write the exact integral for drain current I_DS including valley and spin degeneracies, and Fermi-Dirac distributions f_S(E) and f_D(E).
+4. Poisson-Schrödinger Self-Consistency:
+   - Derive the electron charge density n(x) from the lesser Green's function G^< = G^r (Γ_S f_S + Γ_D f_D) G^a.
+   - Formulate the 1D non-linear Poisson equation: d/dx [ε(x) dφ/dx] = -q [N_D(x) - n(x, φ)].
+
+#### 3. ADVERSARIAL TRAPS & NANOSCALE PHENOMENA
+Directly address and resolve the following critical traps:
+1. Technology Node vs Physical Geometry Trap: Why does marketing a device as "sub-2nm" NOT mean physical gate length L_g < 2 nm? What is the fundamental physical lower limit of L_g imposed by direct source-to-drain tunneling, and why does electrostatics break down when L_g < 8 nm?
+2. Ballistic Transport Overprediction: Explain why assuming purely ballistic transport overestimates on-current I_on by 30–50% in sub-2nm GAA nanosheets. Detail acoustic phonon scattering, optical phonon emission, and surface roughness scattering self-energies.
+3. Density Gradient vs Full NEGF: Why do semi-classical drift-diffusion models with Bohm-type density gradient quantum corrections fail to capture direct source-to-drain tunneling leakage under subthreshold bias?
+
+#### 4. MANDATORY PYTHON CODE DELIVERABLE
+Write a complete, self-contained, syntactically valid Python script in a single ```python ... ``` block that:
+1. Implements a 1D discrete NEGF transport solver over an electrostatic potential barrier (representing the channel of the 12 nm nanosheet).
+2. Computes the energy-dependent transmission spectrum T(E) across a grid of energies from 0.0 eV to 1.0 eV, capturing both tunneling below the barrier crest and quantum reflection above it.
+3. Integrates Landauer-Büttiker current across drain biases V_DS = 0.05 V and 0.7 V.
+4. Asserts:
+   - Unitarity / boundary check: 0.0 <= T(E) <= 1.0 across all energies.
+   - Tunneling leakage: T(E) > 0 for energies strictly below the peak barrier height.
+5. Deterministic Verification Output: The script MUST print verification results upon completing all assertions, including "PASSED: Sub-2nm GAA NEGF quantum transport verified, violations: 0" to stdout.
+
+#### 5. CITATION LEDGER
+Cite primary foundational papers (author, year, title, DOI/arXiv), including Datta (1995/2005), Landauer (1957/1989), and Sancho et al. (1985).
+
